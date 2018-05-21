@@ -30,35 +30,16 @@ class Data_Adjustments:
         self.df = df
 
     def string_to_index(self, col_names, delete_status=False):
-        df  = self.get_df()
-        for col in col_names:
-            indexed = StringIndexer(inputCol=col, outputCol="{}_category".format(col))
-            indexed = indexed.fit(df).transform(df)
-            df = indexed
-        self.df = df
-
+        self.df = self.transform_string_to_index(col_names)
         if delete_status:
             self.drop_columns(col_names)
 
-    def adjust_row_content(self):
-        df = self.get_df()
+    def transform_string_to_index(self, col_names):
+        df  = self.get_df()
+        for col in col_names:
+            indexed = StringIndexer(
+                inputCol=col, outputCol="{}_category".format(col)).\
+                fit(df).transform(df)
+            df = indexed
+        return df
 
-        umm = df.head(1)
-        
-        x = umm[0]['50k_status']
-
-        if x == "<=50k":
-            print "its less than or == to 50k"
-        else:
-            print "its greater thann 50k"
-
-        # df.select(df['50k_status'], F.when(df['50k_status'] == '<=50k', 1).otherwise(0)).show()
-    
-
-    # def cast_column_for_vector(self, data,  col_name, cast_to_col_type, digit_length=None):
-    #     if digit_length:
-    #         format_number(data[col_name].cast(
-    #             cast_to_col_type), digit_length).alias(col_name)
-    #    else:
-    #        data[col_name].cast(cast_to_col_type).alias(col_name)
-    #    return data
