@@ -43,3 +43,5 @@ class Data_Adjustments:
             df = indexed
         return df
 
+    def split_data(self, weights, seed):
+        return self.df.randomSplit(weights, seed=seed)

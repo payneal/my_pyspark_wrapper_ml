@@ -57,6 +57,31 @@ class Test_Data_Adjustments(unittest.TestCase):
         self.assertIn('features', df.schema.names)
         self.assertEqual(len(df.first()['features']), 2)
 
+    def test_spliting_data(self):
+        self.df.drop_columns(['education'])
+        self.df.string_to_index([
+            "workclass", "material_status", "occupation",
+            "relationship", "race", "sex", "native_country"], True)
+        self.df.vectorize([
+            "age", "fnlwgt", "education_number", "capital_gain",
+            "capital_loss", "hours_per_week", "workclass_category",
+            "material_status_category", "occupation_category",
+            "relationship_category", "race_category", "sex_category",
+            "native_country_category"])
+    
+        df_count = self.df.get_df().count()
+        train_data, test_data = self.df.split_data([0.6, 0.4], 11)
+        train_count = train_data.count()
+        test_count = test_data.count()
+        self.assertEqual( train_count + test_count, df_count)
+
+        # print "this is train data count: {}".format(train_data.count())
+        # print "this is test data count: {}".format(test_data.count())
+        # print "look at this: "        
+        # train_data.show()
+        # print "look at this: "
+        # test_data.show()
+    
 
 if __name__ == '__main__':
     unittest.main()

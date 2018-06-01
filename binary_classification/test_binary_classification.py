@@ -32,16 +32,21 @@ class Test_binary_classification(unittest.TestCase):
             "workclass", "material_status", 
             "occupation", "relationship", 'race', 
             "sex", "native_country"], True)
-
         self.df.vectorize([
             "age", "fnlwgt", "education_number", "capital_gain",
             'capital_loss', 'hours_per_week', 'workclass_category', 
             'material_status_category', 'occupation_category', 
             "relationship_category", "race_category", 
             "sex_category", "native_country_category"])
-    
-        self.binary_classification.set_data(self.df.get_df())
-        self.binary_classification.split_data(0.6, 0.4, 11)
+        train_data, test_data = self.df.split_data([0.6, 0.4], 11)
+        # predictions_and_labels = self.binary_classification.get_predictions(
+        #    train_data, test_data)
+
+        #print "this is predictions and labels: "
+        #print predictions_and_labels
+        
+
+        # self.binary_classification.split_data(0.6, 0.4, 11)
         # self.binary_classification.train_algo_to_build_model()
         # self.binary_classification.compute_raw_scores_on_test_data()
 

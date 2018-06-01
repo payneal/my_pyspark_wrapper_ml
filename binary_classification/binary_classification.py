@@ -1,5 +1,7 @@
 from pyspark.mllib.classification import LogisticRegressionWithLBFGS
 from pyspark.mllib.evaluation import BinaryClassificationMetrics
+from pyspark.ml.classification import LogisticRegression
+
 
 class Binary_Classification:
     def __init__(self):
@@ -11,17 +13,18 @@ class Binary_Classification:
     def set_data(self, dataframe):
         self.df = dataframe
 
-    def split_data(self, part_one, part_two, the_seed=None):
-        if the_seed: 
-            self.training, self.test =self.df.randomSplit([
-                part_one, part_two], seed=the_seed) 
-        else:
-            self.training, self.test = self.df.randomSplit([
-                part_one, part_two])
-        self.training.cache()
-    
-    # def train_algo_to_build_model(self):
-    #     self.model = LogisticRegressionWithLBFGS.train(self.training)
+    def get_predictions(self, train_data, test_data):
+        
+        lr_churn  = LogisticRegression(labelCol='features')
+
+        fitted_churn_model = lr_churn.fit(train_data)
+        
+        trainning_sum = fitted_churn_model.summary
+
+        trainning_sum.predictions.describe().show()
+        
+        return fitted_churn_model.evaluate(test_churn)
+
 
     # def compute_raw_scores_on_test_data(self):
     #    predictionAndLabels = self.test.map(
