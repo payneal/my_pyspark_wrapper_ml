@@ -3,26 +3,33 @@ from pyspark.mllib.evaluation import BinaryClassificationMetrics
 from pyspark.ml.classification import LogisticRegression
 
 
-class Binary_Classification:
+class Classification:
     def __init__(self):
-        self.df = None
-        self.training = None
-        self.test = None
-        self.model = None
+        pass
 
-    def set_data(self, dataframe):
-        self.df = dataframe
 
-    def get_predictions(self, train_data, test_data):
-        
-        lr_churn  = LogisticRegression(labelCol='features')
+    def get_predictions(self, train_data, test_data, col_to_check):
+
+        lr_churn  = LogisticRegression(labelCol=col_to_check)
+
+        print "afterlogistic regression"
+
+        print  "this is  lr_churn: {}".format(lr_churn) 
 
         fitted_churn_model = lr_churn.fit(train_data)
-        
+
+        print "after fitted churn model"
+
+        print "this is fitted_churn_model: {}".format(fitted_churn_model)
+
         trainning_sum = fitted_churn_model.summary
+
+        print "after trainning sum"
 
         trainning_sum.predictions.describe().show()
         
+        print "should show the predictions above"
+
         return fitted_churn_model.evaluate(test_churn)
 
 
