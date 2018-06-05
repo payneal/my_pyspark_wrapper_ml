@@ -1,6 +1,8 @@
-# Info oabout data used
+# customer_churn.csv
+* used for the acutal test ml stuff because adult was too big
 
 
+# Info oabout data used in  adult.datacsv
 s data was extracted from the census bureau database found at
 | http://www.census.gov/ftp/pub/DES/www/welcome.html
 | Donor: Ronny Kohavi and Barry Becker,
